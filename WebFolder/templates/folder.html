@@ -1,0 +1,26 @@
+{% load folder_tags %}
+
+<html>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Web Folder</title>
+    </head>
+    
+    <body>
+        <form enctype="multipart/form-data" action="{% url 'file-upload' %}?path='{{ path }}'" method="post">
+            {% csrf_token %}
+            <input type="file"  name="file_upload"/>
+            <input type="submit" value="Upload"/>
+        </form>
+        <hr />
+        {% drawFolderContentPath path %}
+        <hr />
+        <table width="100%" height="100%">
+            <tr>
+                <td width="70%" valign="top" align="left">{% drawFolderContent request path %}</td>
+                <td width="30%" valign="top" align="left">{% drawSelected path fileName %}</td>
+            </tr>
+        </table>
+    </body>
+</html>

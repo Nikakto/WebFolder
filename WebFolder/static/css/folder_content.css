@@ -1,0 +1,10 @@
+#rectangle_folder_content {
+    height: 100%;
+    position: relative;
+}
+
+#folder_canvas {
+    position: absolute;
+    z-index: 1;
+    pointer-events:none;
+}

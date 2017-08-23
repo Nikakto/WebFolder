@@ -1,0 +1,26 @@
+{% load folder_tags %}
+<html>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Web Folder</title>
+    </head>
+    
+    <body>
+        <form enctype="multipart/form-data" action="{% url 'folder-rendering' %}?path='{{ path }}'" method="post">
+            {% csrf_token %}
+            <input type="file"  name="file_upload"/>
+            <input type="submit" value="Upload"/>
+        </form>
+        <hr />
+        {% drawFolderContentPath path %}
+        <hr />
+        <p align="center"><font size="24">Do you want delete <b>{{ fileName }}?</b></font>
+        <table width="100%">
+            <tr>
+                <td align="center" width="50%"><a href="{% url 'file-delete' %}?path='{{ fullPath }}'&confirm=yes"><font size="24">Yes</font></a></td>
+                <td align="center" width="50%"><a href="{% url 'folder-rendering'%}?path='{{ fullPath }}'"><font size="24">No</font></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

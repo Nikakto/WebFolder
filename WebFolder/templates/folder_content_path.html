@@ -1,0 +1,3 @@
+{% for folderName, folderPath in pathFolders %}
+    <a href="{% url 'folder-rendering' %}?path='{{ folderPath }}'">{{ folderName }}</a> /
+{% endfor %}

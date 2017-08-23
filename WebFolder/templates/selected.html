@@ -1,0 +1,29 @@
+{% load folder_tags %}
+<table width="100%" border="1px">
+    <tr>
+        <td>Name:</td>
+        <td><font size="5" ><b>{{ fileName }}</b></font></td>
+    </tr>
+    
+    <tr>  
+        <td width="30%">path:</td>
+        <td width="70%">{{ path }}</td>
+    </tr>
+    
+    <tr>  
+        <td width="30%">type:</td>
+        <td width="70%">{{ fileType }}</td>
+    </tr>
+    
+    <tr>  
+        <td width="30%">size:</td>
+        <td width="70%">{{ fileSize }}kb</td>
+    </tr>
+    
+    <tr>
+        <table width="100%" border="1px"><tr>
+            <td width="50%" align="center"><a href="{% url 'file-download' %}?path='{{ path }}'">Download</a></td>
+            <td width="50%" align="center"><a href="{% url 'file-delete' %}?path='{{ path }}'">Delete</a></td>
+        </tr></table>
+    </tr>
+</table>

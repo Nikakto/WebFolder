@@ -1,0 +1,31 @@
+<link rel='stylesheet' href='/static/css/folder_content.css' type='text/css' />
+<script type="text/javascript" src="/static/js/folder_content.js"></script>
+
+<div id='rectangle_folder_content'>
+
+    <canvas id="folder_canvas">
+        Your brouser doesn't support HTML5
+    </canvas>
+    
+    <div id="folder_content">
+        <ul>
+        {% for item, size, image in folderContent %}
+            <li>
+            
+            {% if image %}
+                <a onmouseout="clearCanvas(event);" 
+                    onmouseover="showImage(event,'{% url 'file-download' %}?path=\'{{ path }}/{{ item }}\'');"; 
+                    href="{{ url }}?path='{{ path }}/{{ item }}'">{{ item }}
+                    {% if size is not None %}({{ size }}kb){% endif %}</a>
+                    
+            {% else %}
+                <a href="{{ url }}?path='{{ path }}/{{ item }}'">{{ item }}
+                    {% if size is not None %}({{ size }}kb){% endif %}</a>
+            {% endif %}
+            
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+
+</div>
