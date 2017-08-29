@@ -14,34 +14,33 @@ def drawFolderContent(request, path):
     if not os.path.exists(path):
         return 'Wrong path %s' % (path)
     
-    if os.path.isdir(path):
+    if not os.path.isdir(path):
+        return 'Cannot get folder contents'
         
-        folderContent = []
-        content = os.listdir(path)
+    folderContent = []
+    content = os.listdir(path)
+    
+    for item in content:
         
-        for item in content:
+        image = False
+        
+        if os.path.isfile(os.path.join(path,item)):
+            size = os.path.getsize(os.path.join(path,item))
+            size = round(size/1024,2)
             
-            image = False
+                # check format in image formats
+            if os.path.splitext(item)[1] in IMAGE_FORMATS:
+                image = True
             
-            if os.path.isfile(os.path.join(path,item)):
-                size = os.path.getsize(os.path.join(path,item))
-                size = round(size/1024,2)
-                
-                    # check format in image formats
-                if os.path.splitext(item)[1] in IMAGE_FORMATS:
-                    image = True
-                
-            else:
-                size = None
-                
-            folderContent.append((item, size, image))
-                
-        return get_template('folder_content.html').render({'request': request,
-                                                           'path': path,
-                                                           'folderContent': folderContent,
-                                                           })
-
-    return 'Cannot get folder contents'
+        else:
+            size = None
+            
+        folderContent.append((item, size, image))
+            
+    return get_template('folder_content.html').render({'request': request,
+                                                       'path': path,
+                                                       'folderContent': folderContent,
+                                                       })
             
 @register.simple_tag()
 def drawFolderContentPath(path):
@@ -70,14 +69,14 @@ def drawFolderContentPath(path):
 def drawSelected(path, fileName):
     ''' Rendering menu and information about <fileName> from <path>'''
     
-    if fileName:
-        fullPath = os.path.join(path, fileName)
-        fileSize = round(os.path.getsize(fullPath)/1024,2)
-        if os.path.isfile(fullPath):
-            return get_template('selected.html').render({'path': fullPath,
-                                                        'fileName': fileName,
-                                                        'fileType': os.path.splitext(fileName)[1],
-                                                        'fileSize': fileSize,
-                                                        })
+    if not fileName:
+        return ''
     
-    return ''
+    fullPath = os.path.join(path, fileName)
+    fileSize = round(os.path.getsize(fullPath)/1024,2)
+    if os.path.isfile(fullPath):
+        return get_template('selected.html').render({'path': fullPath,
+                                                    'fileName': fileName,
+                                                    'fileType': os.path.splitext(fileName)[1],
+                                                    'fileSize': fileSize,
+                                                    })
